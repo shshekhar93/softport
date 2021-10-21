@@ -27,7 +27,9 @@ const WindowButton = styled.span<ThemeProps>`
   cursor: pointer;
 `;
 
-function TitleBar({moveWindow, title, closeButton, maximizeButton }: TitleBarSettings) {
+function TitleBar({
+  moveWindow, title, closeButton, maximizeButton, toggleMaximized, isMaximized
+}: TitleBarSettings) {
   const onMouseDown: MouseEventHandler = useCallback((e) => {
     let knownCoords = [e.clientX, e.clientY];
 
@@ -48,10 +50,13 @@ function TitleBar({moveWindow, title, closeButton, maximizeButton }: TitleBarSet
   }, [ moveWindow ]);
 
   return (
-    <TitleBarContainer onMouseDown={onMouseDown}>
+    <TitleBarContainer onMouseDown={ onMouseDown } onDoubleClick={ toggleMaximized }>
       <TitleContainer>{ title }</TitleContainer>
       <ButtonsContainer>
-        { maximizeButton && <WindowButton>&#128470;</WindowButton> }
+        { maximizeButton && <WindowButton onClick={ toggleMaximized }>{
+          // isMaximized ? '&#128471;' : '&#128470;'
+          isMaximized ? '🗗︎' : '🗖︎'
+        }</WindowButton> }
         { closeButton && <WindowButton>&#128473;</WindowButton> }
       </ButtonsContainer>
     </TitleBarContainer>
@@ -61,16 +66,20 @@ function TitleBar({moveWindow, title, closeButton, maximizeButton }: TitleBarSet
 TitleBar.defaultProps = {
   title: 'Unnamed Window',
   closeButton: true,
-  maximizeButton: true
+  maximizeButton: true,
+  isMaximized: false
 };
 
 export type MoveWindowFn = (dx: number, dy:number) => void;
+export type MaximizeFn = () => void;
 
 export interface TitleBarSettings {
   title: string,
   closeButton: boolean,
   maximizeButton: boolean,
-  moveWindow: MoveWindowFn
+  isMaximized: boolean,
+  moveWindow: MoveWindowFn,
+  toggleMaximized: MaximizeFn
 }
 
 export default TitleBar;
