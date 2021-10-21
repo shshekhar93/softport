@@ -37,7 +37,9 @@ function SystemRoot() {
         <Board />
         <WindowsContainerOuter>
           <WindowsContainerInner id="windows-container">
-            <AWindow />
+            <AWindow>
+              <span>Foo</span>
+            </AWindow>
           </WindowsContainerInner>
         </WindowsContainerOuter>
       </RootContainer>
