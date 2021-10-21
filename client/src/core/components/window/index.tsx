@@ -2,7 +2,11 @@ import { useCallback, useState, useEffect, useRef } from 'react';
 import styled from "styled-components";
 import { ThemeProps } from "../../../theme/types";
 import { getMaxHeight, getMaxWidth } from '../../utils/global-info';
+import Resizer from './resizer';
 import TitleBar from "./title-bar";
+
+export const WIN_MIN_WIDTH = 300;
+export const WIN_MIN_HEIGHT = 200;
 
 const WindowBorder = styled.div<ThemeProps>`
   border: solid 2px;
@@ -10,7 +14,9 @@ const WindowBorder = styled.div<ThemeProps>`
   background-color: ${props => props.theme.colors.bg_1};
   height: 100%;
 `;
+
 export default function AWindow(props: WindowSettings) {
+  const [isMaximized, setMaximized] = useState(false);
   const [top, setTop] = useState(props.top);
   const [left, setLeft] = useState(props.left);
   const [width, setWidth] = useState(props.width);
@@ -18,6 +24,8 @@ export default function AWindow(props: WindowSettings) {
 
   const leftBound = useRef(0);
   const topBound = useRef(0);
+  const widthBound = useRef(0);
+  const heightBound = useRef(0);
 
   // Do this after first render.
   useEffect(() => {
@@ -25,24 +33,38 @@ export default function AWindow(props: WindowSettings) {
     topBound.current = getMaxHeight() - height;
   }, [ width, height ]);
 
+  useEffect(() => {
+    widthBound.current = getMaxWidth() - left;
+    heightBound.current = getMaxHeight() - top;
+  }, [ top, left]);
+
   const moveWindow = useCallback((dx: number, dy: number) => {
     setLeft(left => Math.max(0, Math.min(left + dx, leftBound.current)));
     setTop(top => Math.max(0, Math.min(top + dy, topBound.current)));
-  }, [
-    leftBound, topBound
-  ]);
+  }, []);
+
+  const resizeWindow = useCallback((dw: number, dh: number) => {
+    setWidth(width => Math.max(WIN_MIN_WIDTH, Math.min(widthBound.current, width + dw)));
+    setHeight(height => Math.max(WIN_MIN_HEIGHT, Math.min(heightBound.current, height + dh)));
+  }, []);
+
+  const toggleMaximized = useCallback(() => setMaximized(max => !max), []);
 
   return (
     <div style={{
       position: 'absolute',
-      top: top,
-      left: left,
-      width: props.width,
-      height: props.height
+      top: isMaximized ? 0 : top,
+      left: isMaximized ? 0 : left,
+      width: isMaximized ? '100%' : width,
+      height: isMaximized ? '100%' : height
     }}>
       <WindowBorder>
-        <TitleBar moveWindow={moveWindow} />
-        <span>foo</span>
+        <TitleBar
+          moveWindow={moveWindow}
+          toggleMaximized={toggleMaximized}
+          isMaximized={isMaximized} />
+        {props.children}
+        <Resizer resizeWindow={resizeWindow} />
       </WindowBorder>
     </div>
   );
@@ -55,7 +77,8 @@ AWindow.defaultProps = {
   height: 200,
   resizable: true,
   closeButton: true,
-  maximizeButton: true
+  maximizeButton: true,
+  children: []
 };
 
 export interface WindowSettings {
@@ -65,5 +88,6 @@ export interface WindowSettings {
   height: number,
   resizable: boolean,
   closeButton: boolean,
-  maximizeButton: boolean
+  maximizeButton: boolean,
+  children: React.ReactNode
 }
