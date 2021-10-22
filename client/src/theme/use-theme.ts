@@ -3,7 +3,7 @@ import store from '../core/settings/store';
 import themes from './schema';
 import { ThemeSettings, ThemesType, ThemeType } from './types';
 
-export const THEME_SETTING = "theme";
+export const THEME_SETTING = "dark_theme";
 
 function useTheme(): ThemeSettings {
   const [ theme, setTheme ] = useState(() => {

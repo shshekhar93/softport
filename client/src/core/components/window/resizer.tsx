@@ -16,7 +16,6 @@ function Resizer({ resizeWindow } : ResizerSettings) {
     let knownCoords = [e.clientX, e.clientY];
 
     const moveListener = (e: Event) => {
-      console.log('to resize');
       const [ oldX, oldY ] = knownCoords;
       const { clientX, clientY } = (e as MouseEvent);
       knownCoords = [ clientX, clientY ];

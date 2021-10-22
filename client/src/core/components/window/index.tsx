@@ -40,7 +40,7 @@ export default function AWindow(props: WindowSettings) {
   useEffect(() => {
     widthBound.current = getMaxWidth() - left;
     heightBound.current = getMaxHeight() - top;
-  }, [ top, left]);
+  }, [ top, left ]);
 
   const moveWindow = useCallback((dx: number, dy: number) => {
     setLeft(left => Math.max(0, Math.min(left + dx, leftBound.current)));

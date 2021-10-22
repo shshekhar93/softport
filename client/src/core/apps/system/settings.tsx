@@ -4,6 +4,7 @@ import { ThemeProps } from '../../../theme/types';
 import { THEME_SETTING } from '../../../theme/use-theme';
 import SliderSwitch from '../../components/switch';
 import AWindow from "../../components/window";
+import { SAVE_SETTINGS_LOCALLY } from '../../drivers/settings';
 import store from '../../settings/store';
 
 const SettingsItemContainer = styled.div<ThemeProps>`
@@ -28,6 +29,10 @@ function SettingsItem({ label, type, value, onChange, isLast }: SettingsItemProp
   );
 }
 
+SettingsItem.defaultProps = {
+  isLast: false
+};
+
 enum SettingsType {
   Boolean,
   Input
@@ -49,13 +54,22 @@ function SettingsWindow() {
     rerender(Date.now());
   }, []);
 
+  const onSaveSettingChange = useCallback((value: boolean) => {
+    store.set(SAVE_SETTINGS_LOCALLY, value);
+    rerender(Date.now());
+  }, []);
+
   return (
     <AWindow title="Settings" width={500} height={400}>
       <SettingsItem
         label="Dark theme"
         value={store.get(THEME_SETTING, false)}
         onChange={onThemeChange}
-        isLast={false} 
+        type={SettingsType.Boolean} />
+      <SettingsItem
+        label="Save settings in browser"
+        value={store.get(SAVE_SETTINGS_LOCALLY, false)}
+        onChange={onSaveSettingChange}
         type={SettingsType.Boolean} />
     </AWindow>
   );

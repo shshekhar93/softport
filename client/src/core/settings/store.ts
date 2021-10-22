@@ -8,7 +8,11 @@ export class Store {
   }
 
   get(key: string, defaultVal?: any): any {
-    return this.store[key] || defaultVal;
+    const val = this.store[key];
+    if(val === undefined) {
+      return defaultVal;
+    }
+    return val;
   }
 
   set(key: string, value: any): void {
@@ -16,9 +20,17 @@ export class Store {
     this.fireListerners(key, value);
   }
 
+  setSilent(key: string, value: any): void {
+    this.store[key] = value;
+  }
+
   private fireListerners(key: string, value: any) {
     const listeners = this.listeners[key] || [];
-    listeners.forEach((l: StoreListener) => l(value, key));
+    const globalListeners = this.listeners['*'] || [];
+    [
+      ...listeners, 
+      ...globalListeners
+    ].forEach((l: StoreListener) => l(value, key));
   }
 
   addListener(key: string, listener: StoreListener): void {
@@ -40,6 +52,10 @@ export class Store {
 
   serialize() {
     return JSON.stringify(this.store);
+  }
+
+  deserialize(obj: object) {
+    Object.assign(this.store, obj);
   }
 }
 
