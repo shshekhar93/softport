@@ -10,9 +10,13 @@ export const WIN_MIN_HEIGHT = 200;
 
 const WindowBorder = styled.div<ThemeProps>`
   border: solid 2px;
-  border-color: ${props => props.theme.colors.bg_3};
-  background-color: ${props => props.theme.colors.bg_1};
+  border-color: ${props => props.theme.colors.bg_1};
+  background-color: ${props => props.theme.colors.bg_2};
   height: 100%;
+`;
+
+const WindowContents = styled.div`
+  padding: 3px;
 `;
 
 export default function AWindow(props: WindowSettings) {
@@ -60,10 +64,13 @@ export default function AWindow(props: WindowSettings) {
     }}>
       <WindowBorder>
         <TitleBar
+          title={props.title}
           moveWindow={moveWindow}
           toggleMaximized={toggleMaximized}
           isMaximized={isMaximized} />
-        {props.children}
+        <WindowContents>
+          {props.children}
+        </WindowContents>
         <Resizer resizeWindow={resizeWindow} />
       </WindowBorder>
     </div>
@@ -82,6 +89,7 @@ AWindow.defaultProps = {
 };
 
 export interface WindowSettings {
+  title: string,
   top: number,
   left: number,
   width: number,

@@ -11,6 +11,11 @@ export interface ThemeType {
     fg_3: string,
     fg_4?: string,
 
+    primary: string,
+    success: string,
+    error: string,
+    muted: string,
+
     body: string,
     panel: string,
     text: string,
@@ -37,9 +42,6 @@ export interface ThemesType {
   }
 }
 
-export declare function ChangeThemeFn(theme: ThemeNames): void
-
 export interface ThemeSettings {
-  theme: ThemeType,
-  changeTheme: typeof ChangeThemeFn
+  theme: ThemeType
 }

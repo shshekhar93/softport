@@ -7,7 +7,7 @@ const ResizerContainer = styled.div<ThemeProps>`
   position: absolute;
   bottom: -4px;
   right: -1px;
-  color: ${props => props.theme.colors.bg_4};
+  color: ${props => props.theme.colors.bg_1};
   cursor: nwse-resize;
   user-select: none;
 `;

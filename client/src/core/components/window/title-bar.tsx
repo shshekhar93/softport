@@ -9,20 +9,22 @@ const TitleBarContainer = styled.div<ThemeProps>`
   justify-content: space-between;
   height: 1.75rem;
   padding: 0 3px;
-  background-color: ${props => props.theme.colors.bg_3};
+  background-color: ${({theme}) => theme.colors.bg_1};
+  color: ${({theme}) => theme.colors.fg_1}
   user-select: none;
+  cursor: default;
 `;
 
-const TitleContainer = styled.span<ThemeProps>`
+const TitleContainer = styled.span`
   font-size: 0.875rem;
 `;
 
-const ButtonsContainer = styled.div<ThemeProps>`
+const ButtonsContainer = styled.div`
   position: relative;
   top: -2px;
 `;
 
-const WindowButton = styled.span<ThemeProps>`
+const WindowButton = styled.span`
   margin-left: 3px;
   cursor: pointer;
 `;
@@ -64,7 +66,6 @@ function TitleBar({
 }
 
 TitleBar.defaultProps = {
-  title: 'Unnamed Window',
   closeButton: true,
   maximizeButton: true,
   isMaximized: false

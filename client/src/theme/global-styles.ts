@@ -6,10 +6,10 @@ export const GlobalStyles = createGlobalStyle<ThemeProps>`
   * {
     box-sizing: border-box;
   }
-  
+
   body {
-    background: ${({ theme }) => theme.colors.body};
-    color: ${({ theme }) => theme.colors.text};
+    background: ${({ theme }) => theme.colors.bg_2};
+    color: ${({ theme }) => theme.colors.fg_2};
     font-family: ${({ theme }) => theme.font};
     transition: all 0.50s linear;
     margin: 0;

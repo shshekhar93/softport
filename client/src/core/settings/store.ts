@@ -7,8 +7,8 @@ export class Store {
     this.listeners = Object.create(null);
   }
 
-  get(key: string): any {
-    return this.store[key];
+  get(key: string, defaultVal?: any): any {
+    return this.store[key] || defaultVal;
   }
 
   set(key: string, value: any): void {
@@ -36,6 +36,10 @@ export class Store {
     }
 
     this.listeners[key] = this.listeners[key].filter(l => l !== listener);
+  }
+
+  serialize() {
+    return JSON.stringify(this.store);
   }
 }
 

@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
 import useTheme from "../../../theme/use-theme";
 import styled, { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from "../../../theme/global-styles";
 import Board from "../../components/board";
-import AWindow from "../../components/window/index";
+import SettingsWindow from './settings';
 
 const RootContainer = styled.div`
   position: absolute;
@@ -37,9 +36,7 @@ function SystemRoot() {
         <Board />
         <WindowsContainerOuter>
           <WindowsContainerInner id="windows-container">
-            <AWindow>
-              <span>Foo</span>
-            </AWindow>
+            <SettingsWindow />
           </WindowsContainerInner>
         </WindowsContainerOuter>
       </RootContainer>

@@ -1,20 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import store from '../core/settings/store';
 import themes from './schema';
-import { ThemeNames, ThemeSettings, ThemesType } from './types';
+import { ThemeSettings, ThemesType, ThemeType } from './types';
+
+export const THEME_SETTING = "theme";
 
 function useTheme(): ThemeSettings {
-  const [ theme, setTheme ] = useState((themes as ThemesType).data.light);
+  const [ theme, setTheme ] = useState(() => {
+    let darkTheme = store.get(THEME_SETTING);
 
-  function changeTheme(themeName: ThemeNames) {
-    if(!themes.data[themeName]) {
-      return;
+    if(darkTheme === undefined) {
+      store.set(THEME_SETTING, true);
+      darkTheme = true;
     }
-    setTheme(themes.data[themeName]);
-  }
+
+    return (themes as ThemesType).data[darkTheme ? 'dark': 'light'];
+  });
+
+  useEffect(() => {
+    const listener = (darkTheme: ThemeType) => setTheme(
+      (themes as ThemesType).data[darkTheme ? 'dark': 'light']
+    );
+
+    store.addListener(THEME_SETTING, listener);
+    return () => store.removeListener(THEME_SETTING, listener);
+  });
 
   return {
-    theme,
-    changeTheme
+    theme
   };
 }
 

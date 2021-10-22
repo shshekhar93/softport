@@ -14,8 +14,8 @@ const BoardContainer = styled.div<ThemeProps>`
 const TimeContainer = styled.div<ThemeProps>`
   height: 2rem;
   width: 8rem;
-  background-color: ${props => props.theme.colors.bg_4};
-  color: ${props => props.theme.colors.fg_4};
+  background-color: ${props => props.theme.colors.bg_1};
+  color: ${props => props.theme.colors.fg_1};
   border-bottom-left-radius: 8rem;
   border-bottom-right-radius: 8rem;
   display: flex;
