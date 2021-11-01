@@ -72,7 +72,8 @@ export default function AWindow(props: WindowSettings) {
           title={props.title}
           moveWindow={moveWindow}
           toggleMaximized={toggleMaximized}
-          isMaximized={isMaximized} />
+          isMaximized={isMaximized}
+          onClose={props.onClose} />
         <WindowContents>
           {props.children}
         </WindowContents>
@@ -103,5 +104,6 @@ export interface WindowSettings {
   closeButton: boolean,
   maximizeButton: boolean,
   onResize?: () => void,
+  onClose: () => void,
   children: React.ReactNode
 }

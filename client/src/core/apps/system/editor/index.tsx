@@ -3,8 +3,9 @@ import { useRef, useEffect, useCallback } from 'react';
 import { useTheme } from 'styled-components';
 import AWindow from '../../../components/window';
 import {ThemeType} from '../../../../theme/types';
+import { AppComponentProps } from '../../../drivers/app-manager';
 
-function EditorApp() {
+function EditorApp(props: AppComponentProps) {
   const theme = useTheme();
   const editor = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const editorContainer = useRef<HTMLDivElement>(null);
@@ -49,6 +50,7 @@ function EditorApp() {
       height={450}
       width={750}
       onResize={onResize}
+      onClose={props.onClose}
     >
       <div ref={editorContainer} style={{ height: '100%' }}></div>
     </AWindow>

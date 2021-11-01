@@ -30,7 +30,7 @@ const WindowButton = styled.span`
 `;
 
 function TitleBar({
-  moveWindow, title, closeButton, maximizeButton, toggleMaximized, isMaximized
+  moveWindow, title, closeButton, maximizeButton, toggleMaximized, isMaximized, onClose
 }: TitleBarSettings) {
   const onMouseDown: MouseEventHandler = useCallback((e) => {
     let knownCoords = [e.clientX, e.clientY];
@@ -59,7 +59,7 @@ function TitleBar({
           // isMaximized ? '&#128471;' : '&#128470;'
           isMaximized ? '🗗︎' : '🗖︎'
         }</WindowButton> }
-        { closeButton && <WindowButton>&#128473;</WindowButton> }
+        { closeButton && <WindowButton onClick={ onClose }>&#128473;</WindowButton> }
       </ButtonsContainer>
     </TitleBarContainer>
   );
@@ -72,7 +72,7 @@ TitleBar.defaultProps = {
 };
 
 export type MoveWindowFn = (dx: number, dy:number) => void;
-export type MaximizeFn = () => void;
+type genericFn = () => void;
 
 export interface TitleBarSettings {
   title: string,
@@ -80,7 +80,8 @@ export interface TitleBarSettings {
   maximizeButton: boolean,
   isMaximized: boolean,
   moveWindow: MoveWindowFn,
-  toggleMaximized: MaximizeFn
+  toggleMaximized: genericFn,
+  onClose: genericFn
 }
 
 export default TitleBar;

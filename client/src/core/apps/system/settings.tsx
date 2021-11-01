@@ -4,6 +4,7 @@ import { ThemeProps } from '../../../theme/types';
 import { THEME_SETTING } from '../../../theme/use-theme';
 import SliderSwitch from '../../components/switch';
 import AWindow from "../../components/window";
+import { AppComponentProps } from '../../drivers/app-manager';
 import { SAVE_SETTINGS_LOCALLY } from '../../drivers/settings';
 import store from '../../settings/store';
 
@@ -46,7 +47,7 @@ export interface SettingsItemProps {
   isLast: boolean
 }
 
-function SettingsWindow() {
+function SettingsWindow(props: AppComponentProps) {
   const [,rerender] = useState(0);
 
   const onThemeChange = useCallback((value: boolean) => {
@@ -60,7 +61,12 @@ function SettingsWindow() {
   }, []);
 
   return (
-    <AWindow title="Settings" width={500} height={400}>
+    <AWindow
+      title="Settings"
+      width={500}
+      height={400}
+      onClose={props.onClose}
+    >
       <SettingsItem
         label="Dark theme"
         value={store.get(THEME_SETTING, false)}

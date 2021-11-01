@@ -2,7 +2,9 @@ import useTheme from "../../../theme/use-theme";
 import styled, { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from "../../../theme/global-styles";
 import Board from "../../components/board";
-import SettingsWindow from './settings';
+import { createAppWindow, getAppWindows, setRefresher } from "../../drivers/app-manager";
+import { useEffect, useState } from "react";
+import SettingsWindow from "./settings";
 import EditorApp from "./editor";
 
 const RootContainer = styled.div`
@@ -29,6 +31,19 @@ function SystemRoot() {
     theme,
     // changeTheme
   } = useTheme();
+  const [, rerenderer] = useState(0);
+
+  useEffect(() => {
+    setRefresher(() => rerenderer(Date.now()));
+    return () => setRefresher(null);
+  }, []);
+
+  useEffect(() => {
+    // Open some apps to test.
+
+    createAppWindow(SettingsWindow);
+    createAppWindow(EditorApp);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -37,8 +52,7 @@ function SystemRoot() {
         <Board />
         <WindowsContainerOuter>
           <WindowsContainerInner id="windows-container">
-            <SettingsWindow />
-            <EditorApp />
+            { getAppWindows() }
           </WindowsContainerInner>
         </WindowsContainerOuter>
       </RootContainer>
