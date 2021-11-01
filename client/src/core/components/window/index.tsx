@@ -97,7 +97,9 @@ export default function AWindow(props: WindowSettings) {
         <WindowContents>
           {props.children}
         </WindowContents>
-        <Resizer resizeWindow={resizeWindow} />
+        {props.resizable && 
+          <Resizer resizeWindow={resizeWindow} />
+        }
       </WindowBorder>
     </div>
   );
