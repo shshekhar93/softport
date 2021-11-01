@@ -65,6 +65,8 @@ function SettingsWindow(props: AppComponentProps) {
       title="Settings"
       width={500}
       height={400}
+      instanceId={props.instanceId}
+      isFocused={props.isFocused}
       onClose={props.onClose}
     >
       <SettingsItem

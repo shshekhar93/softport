@@ -1,6 +1,8 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import styled from "styled-components";
 import { ThemeProps } from "../../../theme/types";
+import { setFocusedWindow } from '../../drivers/app-manager';
+import { FOCUSED_Z_INDEX } from '../../utils/constants';
 import { getMaxHeight, getMaxWidth } from '../../utils/global-info';
 import Resizer from './resizer';
 import TitleBar from "./title-bar";
@@ -48,24 +50,42 @@ export default function AWindow(props: WindowSettings) {
     setTop(top => Math.max(0, Math.min(top + dy, topBound.current)));
   }, []);
 
+  const {
+    onResize,
+    isFocused,
+    instanceId
+  } = props;
+
   const resizeWindow = useCallback((dw: number, dh: number) => {
     setWidth(width => Math.max(WIN_MIN_WIDTH, Math.min(widthBound.current, width + dw)));
     setHeight(height => Math.max(WIN_MIN_HEIGHT, Math.min(heightBound.current, height + dh)));
-    props.onResize && props.onResize();
-  }, [ props.onResize ]);
+    onResize && onResize();
+  }, [ onResize ]);
 
   const toggleMaximized = useCallback(() => {
     setMaximized(max => !max);
-    props.onResize && props.onResize();
-  }, [ props.onResize ]);
+    onResize && onResize();
+  }, [ onResize ]);
+
+  const setFocus = useCallback(() => {
+    if(isFocused) {
+      return;
+    }
+    
+    setFocusedWindow(instanceId);
+  }, [ isFocused, instanceId ]);
 
   return (
-    <div style={{
+    <div
+    className="softport-window"
+    onClick={ setFocus }
+    style={{
       position: 'absolute',
       top: isMaximized ? 0 : top,
       left: isMaximized ? 0 : left,
       width: isMaximized ? '100%' : width,
-      height: isMaximized ? '100%' : height
+      height: isMaximized ? '100%' : height,
+      zIndex: isFocused? FOCUSED_Z_INDEX : undefined
     }}>
       <WindowBorder>
         <TitleBar
@@ -101,6 +121,8 @@ export interface WindowSettings {
   width: number,
   height: number,
   resizable: boolean,
+  isFocused: boolean,
+  instanceId: string,
   closeButton: boolean,
   maximizeButton: boolean,
   onResize?: () => void,

@@ -18,7 +18,7 @@ function EditorApp(props: AppComponentProps) {
 
       editor.current.layout();
     }, 100);
-  }, [ editor.current ]);
+  }, []);
 
   useEffect(() => {
     if(!editor.current) {
@@ -42,6 +42,7 @@ function EditorApp(props: AppComponentProps) {
       
       editor.current.dispose();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -49,6 +50,8 @@ function EditorApp(props: AppComponentProps) {
       title="Editor"
       height={450}
       width={750}
+      instanceId={props.instanceId}
+      isFocused={props.isFocused}
       onResize={onResize}
       onClose={props.onClose}
     >
