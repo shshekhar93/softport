@@ -1,11 +1,10 @@
 import useTheme from "../../../theme/use-theme";
 import styled, { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from "../../../theme/global-styles";
-import Board from "../../components/board";
-import { createAppWindow, getAppWindows, setRefresher } from "../../drivers/app-manager";
+import { getAppWindows, setRefresher } from "../../drivers/app-manager";
 import { useEffect, useState } from "react";
-import SettingsWindow from "./settings";
-import EditorApp from "./editor";
+import AppDrawer from "../../components/app-drawer";
+import { ALL_APPS } from "../../utils/constants";
 
 const RootContainer = styled.div`
   position: absolute;
@@ -13,6 +12,8 @@ const RootContainer = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
+  padding-top: 2rem;
+  overflow: hidden;
 `;
 
 const WindowsContainerOuter = styled.div`
@@ -38,18 +39,11 @@ function SystemRoot() {
     return () => setRefresher(null);
   }, []);
 
-  useEffect(() => {
-    // Open some apps to test.
-
-    createAppWindow(SettingsWindow);
-    createAppWindow(EditorApp);
-  }, []);
-
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <RootContainer>
-        <Board />
+        <AppDrawer apps={ ALL_APPS } />
         <WindowsContainerOuter>
           <WindowsContainerInner id="windows-container">
             { getAppWindows() }
