@@ -5,8 +5,8 @@ import { addGlobalEventHandler, removeGlobalEventHandler } from '../../utils/glo
 
 const ResizerContainer = styled.div<ThemeProps>`
   position: absolute;
-  bottom: -4px;
-  right: -1px;
+  bottom: -2px;
+  right: 0;
   color: ${props => props.theme.colors.bg_1};
   cursor: nwse-resize;
   user-select: none;

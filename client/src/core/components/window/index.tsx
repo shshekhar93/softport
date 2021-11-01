@@ -17,6 +17,7 @@ const WindowBorder = styled.div<ThemeProps>`
 
 const WindowContents = styled.div`
   padding: 3px;
+  height: calc(100% - 1.75rem);
 `;
 
 export default function AWindow(props: WindowSettings) {
@@ -50,9 +51,13 @@ export default function AWindow(props: WindowSettings) {
   const resizeWindow = useCallback((dw: number, dh: number) => {
     setWidth(width => Math.max(WIN_MIN_WIDTH, Math.min(widthBound.current, width + dw)));
     setHeight(height => Math.max(WIN_MIN_HEIGHT, Math.min(heightBound.current, height + dh)));
-  }, []);
+    props.onResize && props.onResize();
+  }, [ props.onResize ]);
 
-  const toggleMaximized = useCallback(() => setMaximized(max => !max), []);
+  const toggleMaximized = useCallback(() => {
+    setMaximized(max => !max);
+    props.onResize && props.onResize();
+  }, [ props.onResize ]);
 
   return (
     <div style={{
@@ -97,5 +102,6 @@ export interface WindowSettings {
   resizable: boolean,
   closeButton: boolean,
   maximizeButton: boolean,
+  onResize?: () => void,
   children: React.ReactNode
 }

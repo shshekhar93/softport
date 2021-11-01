@@ -3,6 +3,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from "../../../theme/global-styles";
 import Board from "../../components/board";
 import SettingsWindow from './settings';
+import EditorApp from "./editor";
 
 const RootContainer = styled.div`
   position: absolute;
@@ -37,6 +38,7 @@ function SystemRoot() {
         <WindowsContainerOuter>
           <WindowsContainerInner id="windows-container">
             <SettingsWindow />
+            <EditorApp />
           </WindowsContainerInner>
         </WindowsContainerOuter>
       </RootContainer>
