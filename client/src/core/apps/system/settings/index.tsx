@@ -1,12 +1,12 @@
 import { useState, useCallback } from 'react';
 import styled from 'styled-components';
-import { ThemeProps } from '../../../theme/types';
-import { THEME_SETTING } from '../../../theme/use-theme';
-import SliderSwitch from '../../components/switch';
-import AWindow from "../../components/window";
-import { AppComponentProps } from '../../drivers/app-manager';
-import { SAVE_SETTINGS_LOCALLY } from '../../drivers/settings';
-import store from '../../settings/store';
+import { ThemeProps } from '../../../../theme/types';
+import { THEME_SETTING } from '../../../../theme/use-theme';
+import SliderSwitch from '../../../components/switch';
+import AWindow from "../../../components/window";
+import { AppComponentProps } from '../../../drivers/app-manager';
+import { SAVE_SETTINGS_LOCALLY } from '../../../drivers/settings';
+import store from '../../../settings/store';
 
 const SettingsItemContainer = styled.div<ThemeProps>`
   & {
@@ -47,7 +47,7 @@ export interface SettingsItemProps {
   isLast: boolean
 }
 
-function SettingsWindow(props: AppComponentProps) {
+function SettingsApp(props: AppComponentProps) {
   const [,rerender] = useState(0);
 
   const onThemeChange = useCallback((value: boolean) => {
@@ -83,4 +83,4 @@ function SettingsWindow(props: AppComponentProps) {
   );
 }
 
-export default SettingsWindow;
+export default SettingsApp;

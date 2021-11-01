@@ -1,5 +1,5 @@
 import EditorApp from "../apps/system/editor";
-import SettingsWindow from "../apps/system/settings";
+import SettingsApp from "../apps/system/settings";
 
 export const FOCUSED_Z_INDEX = 1009;
 export const APP_DRAWER_Z_INDEX = 2009;
@@ -8,7 +8,7 @@ export const APP_DRAWER_Z_INDEX = 2009;
 export const ALL_APPS = [
   {
     name: 'Settings',
-    component: SettingsWindow,
+    component: SettingsApp,
     groups: [ 'SYSTEM' ]
   },
   {
